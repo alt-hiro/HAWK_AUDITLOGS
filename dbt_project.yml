@@ -1,0 +1,29 @@
+name: hawk_auditlogs
+version: '1.0.0'
+config-version: 2
+
+profile: hawk_auditlogs
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - target
+  - dbt_packages
+
+models:
+  hawk_auditlogs:
+    staging:
+      +schema: audit_logs_staging
+      +materialized: incremental
+      +incremental_strategy: append
+      +on_schema_change: append_new_columns
+    marts:
+      +schema: audit_logs_archive
+      +materialized: incremental
+      +incremental_strategy: append
+      +on_schema_change: append_new_columns

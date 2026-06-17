@@ -1,0 +1,37 @@
+version: 2
+
+sources:
+  - name: snowflake_account_usage
+    description: Snowflake が提供する ACCOUNT_USAGE ビュー群です。監査ログ退避の入力として使用します。
+    database: SNOWFLAKE
+    schema: ACCOUNT_USAGE
+    tables:
+      - name: QUERY_HISTORY
+        description: Snowflake クエリ実行履歴です。ユーザー、ロール、ウェアハウス、実行時間、エラー、処理量などの監査情報を含みます。
+        loaded_at_field: START_TIME
+      - name: ACCESS_HISTORY
+        description: Snowflake オブジェクトへのアクセス履歴です。クエリ単位で直接参照、基底参照、変更対象のオブジェクト情報を含みます。
+        loaded_at_field: QUERY_START_TIME
+      - name: LOGIN_HISTORY
+        description: Snowflake ユーザーのログイン試行履歴です。認証方式、接続元、成否、エラー情報などを含みます。
+        loaded_at_field: EVENT_TIMESTAMP
+      - name: SESSIONS
+        description: Snowflake セッション履歴です。セッション作成時刻、認証方式、クライアント情報、最終アクセス時刻などを含みます。
+        loaded_at_field: CREATED_ON
+      - name: GRANTS_TO_USERS
+        description: ユーザーへ付与されたロールの履歴です。付与時刻、失効時刻、付与者を含みます。
+        loaded_at_field: CREATED_ON
+      - name: GRANTS_TO_ROLES
+        description: ロール、データベースロール、アプリケーションなどへ付与された権限の履歴です。
+        loaded_at_field: MODIFIED_ON
+      - name: GRANTS_TO_DATABASE_ROLES
+        description: データベースロールへ付与された権限の履歴です。
+        loaded_at_field: CREATED_ON
+      - name: OBJECT_DEPENDENCIES
+        description: ビューなどの参照関係を表すオブジェクト依存関係です。
+      - name: TAG_REFERENCES
+        description: Snowflake オブジェクトとタグの直接関連付けです。タグ値、対象オブジェクト、適用方法を含みます。
+        loaded_at_field: OBJECT_DELETED
+      - name: WAREHOUSE_METERING_HISTORY
+        description: ウェアハウス別、時間別のクレジット使用量履歴です。
+        loaded_at_field: START_TIME

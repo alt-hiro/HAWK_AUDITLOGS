@@ -1,0 +1,63 @@
+version: 2
+
+models:
+  - name: audit_query_history_archive
+    description: クエリ実行履歴を長期退避する mart モデルです。staging で取り込んだ新規行のみを append します。
+    columns:
+      - name: archived_at
+        description: dbt が退避行を取り込んだ時刻です。
+        tests: [not_null]
+  - name: audit_access_history_archive
+    description: オブジェクトアクセス履歴を長期退避する mart モデルです。staging で取り込んだ新規行のみを append します。
+    columns:
+      - name: archived_at
+        description: dbt が退避行を取り込んだ時刻です。
+        tests: [not_null]
+  - name: audit_login_history_archive
+    description: ログイン試行履歴を長期退避する mart モデルです。staging で取り込んだ新規行のみを append します。
+    columns:
+      - name: archived_at
+        description: dbt が退避行を取り込んだ時刻です。
+        tests: [not_null]
+  - name: audit_sessions_archive
+    description: セッション履歴を長期退避する mart モデルです。staging で取り込んだ新規行のみを append します。
+    columns:
+      - name: archived_at
+        description: dbt が退避行を取り込んだ時刻です。
+        tests: [not_null]
+  - name: audit_grants_to_users_archive
+    description: ユーザーへのロール付与履歴を長期退避する mart モデルです。staging で取り込んだ新規行のみを append します。
+    columns:
+      - name: archived_at
+        description: dbt が退避行を取り込んだ時刻です。
+        tests: [not_null]
+  - name: audit_grants_to_roles_archive
+    description: ロール等への権限付与履歴を長期退避する mart モデルです。staging で取り込んだ新規行のみを append します。
+    columns:
+      - name: archived_at
+        description: dbt が退避行を取り込んだ時刻です。
+        tests: [not_null]
+  - name: audit_grants_to_database_roles_archive
+    description: データベースロールへの権限付与履歴を長期退避する mart モデルです。staging で取り込んだ新規行のみを append します。
+    columns:
+      - name: archived_at
+        description: dbt が退避行を取り込んだ時刻です。
+        tests: [not_null]
+  - name: audit_object_dependencies_archive
+    description: オブジェクト依存関係を長期退避する mart モデルです。staging で取り込んだ新規行のみを append します。
+    columns:
+      - name: archived_at
+        description: dbt が退避行を取り込んだ時刻です。
+        tests: [not_null]
+  - name: audit_tag_references_archive
+    description: タグ参照関係を長期退避する mart モデルです。staging で取り込んだ新規行のみを append します。
+    columns:
+      - name: archived_at
+        description: dbt が退避行を取り込んだ時刻です。
+        tests: [not_null]
+  - name: audit_warehouse_metering_history_archive
+    description: ウェアハウス使用量履歴を長期退避する mart モデルです。staging で取り込んだ新規行のみを append します。
+    columns:
+      - name: archived_at
+        description: dbt が退避行を取り込んだ時刻です。
+        tests: [not_null]
