@@ -1,0 +1,100 @@
+version: 2
+
+models:
+  - name: stg_snowflake__query_history
+    description: Snowflake のクエリ実行履歴を退避する staging モデルです。`start_time` を差分更新の基準にします。
+    columns:
+      - name: query_id
+        description: SQL 文の内部識別子です。
+        tests: [not_null]
+      - name: start_time
+        description: SQL 文の実行開始時刻です。
+        tests: [not_null]
+      - name: archived_at
+        description: dbt が退避行を取り込んだ時刻です。
+        tests: [not_null]
+  - name: stg_snowflake__access_history
+    description: Snowflake オブジェクトへのアクセス履歴を退避する staging モデルです。`query_start_time` を差分更新の基準にします。
+    columns:
+      - name: query_id
+        description: SQL 文の内部識別子です。
+        tests: [not_null]
+      - name: query_start_time
+        description: SQL 文の開始時刻です。
+        tests: [not_null]
+      - name: archived_at
+        description: dbt が退避行を取り込んだ時刻です。
+        tests: [not_null]
+  - name: stg_snowflake__login_history
+    description: Snowflake ユーザーのログイン試行履歴を退避する staging モデルです。`event_timestamp` を差分更新の基準にします。
+    columns:
+      - name: event_id
+        description: ログイン試行の内部識別子です。
+        tests: [not_null]
+      - name: event_timestamp
+        description: ログインイベントの発生時刻です。
+        tests: [not_null]
+      - name: archived_at
+        description: dbt が退避行を取り込んだ時刻です。
+        tests: [not_null]
+  - name: stg_snowflake__sessions
+    description: Snowflake セッション履歴を退避する staging モデルです。`created_on` を差分更新の基準にします。
+    columns:
+      - name: session_id
+        description: セッションの一意な識別子です。
+        tests: [not_null]
+      - name: created_on
+        description: セッションが作成された時刻です。
+        tests: [not_null]
+  - name: stg_snowflake__grants_to_users
+    description: ユーザーに付与されたロール履歴を退避する staging モデルです。`created_on` を差分更新の基準にします。
+    columns:
+      - name: created_on
+        description: ロールがユーザーに付与された時刻です。
+        tests: [not_null]
+      - name: grantee_name
+        description: ロールを付与されたユーザー名です。
+  - name: stg_snowflake__grants_to_roles
+    description: ロール等に付与された権限履歴を退避する staging モデルです。`modified_on` を差分更新の基準にします。
+    columns:
+      - name: modified_on
+        description: 権限付与行が更新された時刻です。
+        tests: [not_null]
+      - name: grantee_name
+        description: 権限の付与先です。
+  - name: stg_snowflake__grants_to_database_roles
+    description: データベースロールに付与された権限履歴を退避する staging モデルです。`created_on` を差分更新の基準にします。
+    columns:
+      - name: created_on
+        description: 権限が付与された時刻です。
+        tests: [not_null]
+      - name: grantee_name
+        description: 権限の付与先データベースロールです。
+  - name: stg_snowflake__object_dependencies
+    description: オブジェクト依存関係を退避する staging モデルです。タイムスタンプ列がないため、依存関係キーの未取り込み分のみを append します。
+    columns:
+      - name: referenced_object_id
+        description: 参照される側のオブジェクト ID です。
+      - name: referencing_object_id
+        description: 参照する側のオブジェクト ID です。
+      - name: dependency_type
+        description: 依存関係の種類です。
+  - name: stg_snowflake__tag_references
+    description: オブジェクトとタグの直接関連付けを退避する staging モデルです。安定キーの未取り込み分のみを append します。
+    columns:
+      - name: tag_name
+        description: タグ名です。
+        tests: [not_null]
+      - name: tag_value
+        description: タグ値です。
+      - name: object_name
+        description: タグが付与されたオブジェクト名です。
+  - name: stg_snowflake__warehouse_metering_history
+    description: ウェアハウス別の時間単位クレジット使用量を退避する staging モデルです。`start_time` を差分更新の基準にします。
+    columns:
+      - name: start_time
+        description: 使用量集計対象時間の開始時刻です。
+        tests: [not_null]
+      - name: warehouse_id
+        description: ウェアハウスの内部識別子です。
+        tests: [not_null]

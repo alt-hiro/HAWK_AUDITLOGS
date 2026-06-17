@@ -23,7 +23,10 @@ with source as (
         error_message,
         related_event_id,
         connection,
-        client_private_link_id
+        client_private_link_id,
+        first_authentication_factor_id,
+        second_authentication_factor_id,
+        login_details
     from {{ source('snowflake_account_usage', 'LOGIN_HISTORY') }}
 
     {% if is_incremental() %}
@@ -35,7 +38,7 @@ with source as (
 
 ),
 
-renamed as (
+final as (
 
     select
         event_id,
@@ -53,10 +56,13 @@ renamed as (
         related_event_id,
         connection,
         client_private_link_id,
+        first_authentication_factor_id,
+        second_authentication_factor_id,
+        login_details,
         current_timestamp() as archived_at
     from source
 
 )
 
 select *
-from renamed
+from final
