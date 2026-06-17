@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: snowflake_account_usage
+    description: Snowflake-provided ACCOUNT_USAGE views used as audit-log sources.
+    database: SNOWFLAKE
+    schema: ACCOUNT_USAGE
+    tables:
+      - name: LOGIN_HISTORY
+        description: Login attempts and outcomes for Snowflake users.
+        loaded_at_field: EVENT_TIMESTAMP
+        columns:
+          - name: EVENT_ID
+            description: Unique identifier for the login event.
+            tests:
+              - not_null
+          - name: EVENT_TIMESTAMP
+            description: Timestamp when the login event occurred.
+            tests:
+              - not_null
+          - name: USER_NAME
+            description: Snowflake user associated with the login attempt.
+          - name: IS_SUCCESS
+            description: Whether the login attempt succeeded.

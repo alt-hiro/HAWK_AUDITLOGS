@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: snowflake_login_history_archive
+    description: >
+      Append-only archive of Snowflake ACCOUNT_USAGE.LOGIN_HISTORY audit logs.
+      Incremental runs load only events newer than the maximum archived event_timestamp.
+    columns:
+      - name: event_id
+        description: Unique identifier for the login event from Snowflake.
+        tests:
+          - not_null
+      - name: event_timestamp
+        description: Timestamp when the login event occurred; used as the incremental high-water mark.
+        tests:
+          - not_null
+      - name: user_name
+        description: Snowflake user associated with the login attempt.
+      - name: is_success
+        description: Whether the login attempt succeeded.
+      - name: archived_at
+        description: Timestamp when dbt archived the row.
+        tests:
+          - not_null
